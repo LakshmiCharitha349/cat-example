@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "test": "deno test --allow-read",
+    "coverage": "deno test --allow-read --coverage=coverage && deno coverage coverage",
+    "cat": "deno run --allow-read cat.js",
+    "cat:stdin": "deno run --allow-read cat.js"
+  }
+}

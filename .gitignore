@@ -1,0 +1,19 @@
+# Coverage reports
+coverage/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Deno
+.deno/
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
