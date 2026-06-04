@@ -1,18 +1,18 @@
 import {
   assertEquals,
   assertRejects,
-} from 'https://deno.land/std@0.208.0/assert/mod.ts';
+} from "https://deno.land/std@0.208.0/assert/mod.ts";
 import {
+  copyStreamToStdout,
   createFileStream,
   createStdinStream,
-  copyStreamToStdout,
-} from '../src/stream_reader.js';
+} from "../src/stream_reader.js";
 
 Deno.test(
-  'createFileStream - successfully creates stream from file',
+  "createFileStream - successfully creates stream from file",
   async () => {
     // Create a mock file object
-    const mockContent = new TextEncoder().encode('Hello, World!');
+    const mockContent = new TextEncoder().encode("Hello, World!");
     const mockReadable = new ReadableStream({
       start(controller) {
         controller.enqueue(mockContent);
@@ -23,32 +23,33 @@ Deno.test(
     const mockFile = { readable: mockReadable };
     const mockOpen = async () => mockFile;
 
-    const stream = await createFileStream('test.txt', mockOpen);
+    const stream = await createFileStream("test.txt", mockOpen);
     assertEquals(stream, mockReadable);
-  }
+  },
 );
 
-Deno.test('createFileStream - throws error for non-existent file', async () => {
+Deno.test("createFileStream - throws error for non-existent file", async () => {
   const mockOpen = async () => {
-    throw new Deno.errors.NotFound('file not found');
+    throw new Deno.errors.NotFound("file not found");
   };
 
   await assertRejects(
-    async () => await createFileStream('nonexistent.txt', mockOpen),
-    Deno.errors.NotFound
+    async () => await createFileStream("nonexistent.txt", mockOpen),
+    Deno.errors.NotFound,
   );
 });
+B;
 
-Deno.test('createStdinStream - returns provided stdin stream', () => {
+Deno.test("createStdinStream - returns provided stdin stream", () => {
   const mockStdin = new ReadableStream();
   const stream = createStdinStream(mockStdin);
   assertEquals(stream, mockStdin);
 });
 
 Deno.test(
-  'copyStreamToStdout - successfully copies stream to stdout',
+  "copyStreamToStdout - successfully copies stream to stdout",
   async () => {
-    const testData = new TextEncoder().encode('test content');
+    const testData = new TextEncoder().encode("test content");
     const inputStream = new ReadableStream({
       start(controller) {
         controller.enqueue(testData);
@@ -68,10 +69,10 @@ Deno.test(
 
     await copyStreamToStdout(inputStream, mockStdout);
     assertEquals(writtenData, testData);
-  }
+  },
 );
 
-Deno.test('copyStreamToStdout - handles empty stream', async () => {
+Deno.test("copyStreamToStdout - handles empty stream", async () => {
   const inputStream = new ReadableStream({
     start(controller) {
       controller.close();

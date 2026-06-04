@@ -14,6 +14,7 @@ export async function createFileStream(path, openFn = Deno.open) {
  * @param {ReadableStream} stdin - The stdin stream (dependency injection)
  * @returns {ReadableStream} A readable stream
  */
+
 export function createStdinStream(stdin = Deno.stdin.readable) {
   return stdin;
 }
@@ -26,7 +27,7 @@ export function createStdinStream(stdin = Deno.stdin.readable) {
  */
 export async function copyStreamToStdout(
   stream,
-  stdout = Deno.stdout.writable
+  stdout = Deno.stdout.writable,
 ) {
   await stream.pipeTo(stdout, { preventClose: true });
 }
